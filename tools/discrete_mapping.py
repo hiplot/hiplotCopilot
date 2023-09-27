@@ -10,15 +10,10 @@ class DiscreteMapping(BaseTool):
     Input to this tool is an excel file path with optional manual mapping dict and manual mapping col.
     If the tool runs successfully, the output will be the path of the excel file with mapping result end of *_discrete_mapping_*.xlsx.
     Example Input: data/thing.xlsx
+    Params: file_path(required), manual_mapping_dict(optional), manual_mapping_col(optional)
+    Set manual_mapping_dict can map values manually, at the same time you should set manual_mapping_col to None.
+    Set manual_mapping_col can map specify columns, at the same time you should set manual_mapping_dict to None.
     """
-    # Mapping discrete values to numbers
-    # Input: file_path(required), manual_mapping_dict(optional), manual_mapping_col(optional)
-    # Output: file_path(end of *_discrete_mapping_*.xlsx)
-    # manual_mapping_dict: mapping values manually.
-    # manual_mapping_col: mapping specify columns.
-    # only file_path: auto mapping all values.
-
-
 
     outputPath: str = "data/tmp/"
 
