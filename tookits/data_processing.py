@@ -7,5 +7,6 @@ from tools import discrete_mapping, missing_padding
 class DataProcessingToolKit(BaseToolkit):
     def get_tools(self) -> List[BaseTool]:
         return [
-            discrete_mapping.DiscreteMapping(), missing_padding.MissingPadding()
+            discrete_mapping.DiscreteMapping(),
+            missing_padding.MissingPadding(),
         ]
