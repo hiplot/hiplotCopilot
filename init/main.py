@@ -7,6 +7,8 @@ import time
 
 from towhee import AutoPipes
 from tqdm import tqdm
+from langchain.document_loaders.markdown import UnstructuredMarkdownLoader
+from langchain.text_splitter import TokenTextSplitter
 
 from common.himilvus import hiplot_doc_collection
 
@@ -15,6 +17,7 @@ docs_directory = "docs"
 print("Loading embedding model......")
 embedding_pipeline = AutoPipes.pipeline("sentence_embedding")
 print("Loading embedding model success!")
+splitter = TokenTextSplitter(chunk_size=300, chunk_overlap=50)
 
 
 def docsExists() -> bool:
@@ -54,11 +57,8 @@ def get_all_md_filepath() -> list:
 
 def split_and_store_md(filepath: str):
     # load
-    from langchain.document_loaders.markdown import UnstructuredMarkdownLoader
     doc_md = UnstructuredMarkdownLoader(filepath).load()
     # split
-    from langchain.text_splitter import TokenTextSplitter
-    splitter = TokenTextSplitter(chunk_size=300, chunk_overlap=50)
     doc_md_split = splitter.split_documents(doc_md)
     # store
     for i in tqdm(range(len(doc_md_split))):
