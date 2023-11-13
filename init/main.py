@@ -13,7 +13,7 @@ from langchain.text_splitter import TokenTextSplitter
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from common.hiMilvus import hiplot_doc_collection
-from common.hiEmbedding import embedding_pipeline
+from common.hiTowhee import embedding_pipeline
 from common.print_color import print_green, print_yellow
 
 git_url = "https://github.com/hiplot/docs.git"
