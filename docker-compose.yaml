@@ -60,16 +60,16 @@ services:
       - "etcd"
       - "minio"
 
-  mysql:
-    container_name: hiplotCopilot-mysql
-    image: mysql:8.2.0
-    environment:
-      MYSQL_ROOT_PASSWORD: hiplotCopilot
-      MYSQL_DATABASE: hiplotCopilot
-    ports:
-      - "3306:3306"
-    volumes:
-      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/mysql:/var/lib/mysql
+#  mysql:
+#    container_name: hiplotCopilot-mysql
+#    image: mysql:8.2.0
+#    environment:
+#      MYSQL_ROOT_PASSWORD: hiplotCopilot
+#      MYSQL_DATABASE: hiplotCopilot
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/mysql:/var/lib/mysql
 
 networks:
   default:

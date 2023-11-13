@@ -6,22 +6,18 @@ import hashlib
 import sys
 import time
 
-from towhee import AutoPipes
 from tqdm import tqdm
 from langchain.document_loaders.markdown import UnstructuredMarkdownLoader
 from langchain.text_splitter import TokenTextSplitter
 
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
-from common.himilvus import hiplot_doc_collection
+from common.hiMilvus import hiplot_doc_collection
+from common.hiEmbedding import embedding_pipeline
 from common.print_color import print_green, print_yellow
 
 git_url = "https://github.com/hiplot/docs.git"
 docs_directory = "docs"
-
-print_green("Loading embedding model......")
-embedding_pipeline = AutoPipes.pipeline("sentence_embedding")
-print_green("Loading embedding model successful!")
 splitter = TokenTextSplitter(chunk_size=300, chunk_overlap=50)
 
 
@@ -66,7 +62,7 @@ def split_and_store_md(filepath: str):
     # split
     doc_md_split = splitter.split_documents(doc_md)
     # store
-    for i in tqdm(range(len(doc_md_split))):
+    for i in tqdm(range(len(doc_md_split)), ncols=50):
         doc = doc_md_split[i]
         store_md(doc.page_content)
 
