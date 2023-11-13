@@ -35,13 +35,13 @@ def git_clone():
         logging.error(f"Git clone failed: {e}")
 
 
-def delete_dir():
+def delete_doc_dir():
     for root, dirs, files in os.walk(docs_directory):
         for file in files:
             path = os.path.join(root, file)
             os.chmod(path, 0o777)
     shutil.rmtree(docs_directory)
-    print_green(f"Remove {docs_directory} successful.")
+    print_green(f"Clean {docs_directory} successful.")
 
 
 def get_all_md_filepath() -> list:
@@ -53,6 +53,7 @@ def get_all_md_filepath() -> list:
         for file in files:
             if file.endswith(".md"):
                 markdown_filepath.append(os.path.join(root, file))
+    os.chdir("..")
     return markdown_filepath
 
 
@@ -106,7 +107,7 @@ if __name__ == "__main__":
         print_yellow("Document path <docs> exists, continue clone? (y/n/q)")
         c = input().lower()
         if c == "y":
-            delete_dir()
+            delete_doc_dir()
             git_clone()
         elif c == "q":
             sys.exit()
@@ -117,4 +118,5 @@ if __name__ == "__main__":
     end_time = time.time()
     use_time = end_time - start_time
     print_green(f"Use time: {int(use_time)}s")
+    delete_doc_dir()
     print_green("Milvus init successful!")
