@@ -3,6 +3,7 @@ import os
 import shutil
 import subprocess
 import hashlib
+import sys
 import time
 
 from towhee import AutoPipes
@@ -10,13 +11,17 @@ from tqdm import tqdm
 from langchain.document_loaders.markdown import UnstructuredMarkdownLoader
 from langchain.text_splitter import TokenTextSplitter
 
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 from common.himilvus import hiplot_doc_collection
+from common.print_color import print_green, print_yellow
 
 git_url = "https://github.com/hiplot/docs.git"
 docs_directory = "docs"
-print("Loading embedding model......")
+
+print_green("Loading embedding model......")
 embedding_pipeline = AutoPipes.pipeline("sentence_embedding")
-print("Loading embedding model success!")
+print_green("Loading embedding model successful!")
 splitter = TokenTextSplitter(chunk_size=300, chunk_overlap=50)
 
 
@@ -29,9 +34,9 @@ def docsExists() -> bool:
 def git_clone():
     try:
         subprocess.run(["git", "clone", git_url], check=True)
-        print("Git clone successful")
+        print_green("Git clone successful")
     except subprocess.CalledProcessError as e:
-        print(f"Git clone failed: {e}")
+        logging.error(f"Git clone failed: {e}")
 
 
 def delete_dir():
@@ -40,7 +45,7 @@ def delete_dir():
             path = os.path.join(root, file)
             os.chmod(path, 0o777)
     shutil.rmtree(docs_directory)
-    print(f"Remove {docs_directory} success")
+    print_green(f"Remove {docs_directory} successful.")
 
 
 def get_all_md_filepath() -> list:
@@ -92,9 +97,9 @@ def show_file_content(filepath: str):
 
 def store_documents():
     fps = get_all_md_filepath()
-    print("Loading document into milvus......")
+    print_green("Loading document into milvus......")
     for i in range(len(fps)):
-        print(f"Total document: {i + 1}/{len(fps)}")
+        print_green(f"Total document: {i + 1}/{len(fps)}")
         split_and_store_md(fps[i])
     # load
     hiplot_doc_collection.load()
@@ -102,15 +107,18 @@ def store_documents():
 
 if __name__ == "__main__":
     if docsExists():
-        print("Document path <docs> exists, continue clone? (y/n)")
-        if "y" == input():
+        print_yellow("Document path <docs> exists, continue clone? (y/n/q)")
+        c = input().lower()
+        if c == "y":
             delete_dir()
             git_clone()
+        elif c == "q":
+            sys.exit()
     else:
         git_clone()
     start_time = time.time()
     store_documents()
     end_time = time.time()
     use_time = end_time - start_time
-    print(f"Use time: {int(use_time)}s")
-    print("Milvus init success!")
+    print_green(f"Use time: {int(use_time)}s")
+    print_green("Milvus init successful!")

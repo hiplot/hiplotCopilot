@@ -1,7 +1,12 @@
 from pymilvus import connections, CollectionSchema, FieldSchema, DataType, Collection
+from common.print_color import print_green
 
 # connect
+print_green("Connecting milvus......")
 connections.connect(alias="default", host="localhost", port="19530")
+print_green("Milvus connect successful!")
+
+print_green("Building hiplot_doc collection and index......")
 # create collection
 fields = [
     FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=32, is_primary=True),
@@ -17,3 +22,4 @@ index = {
     "params": {"nlist": 128}
 }
 hiplot_doc_collection.create_index("embeddings", index)
+print_green("Collection and index build successful!")
