@@ -1,2 +1,2 @@
 init_doc:
-	cd init && python main.py
+	cd init && python docInit.py
