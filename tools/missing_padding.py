@@ -1,7 +1,7 @@
 import uuid
 import pandas
 from langchain.tools import BaseTool
-from common.is_number import is_number
+from common.tools import is_number
 
 
 class MissingPadding(BaseTool):
