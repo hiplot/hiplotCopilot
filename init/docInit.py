@@ -1,4 +1,3 @@
-import logging
 import os
 import hashlib
 import sys
@@ -8,13 +7,12 @@ from tqdm import tqdm
 from langchain.document_loaders.markdown import UnstructuredMarkdownLoader
 from langchain.text_splitter import TokenTextSplitter
 
-from common.tools import git_clone, path_exists, delete_dir
-
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 from common.hiMilvus import hiplot_doc_collection
 from common.hiTowhee import embedding_pipeline
-from common.print_color import print_green, print_yellow
+from common.print_color import print_green
+from common.tools import delete_dir, git_clone_path
 
 git_url_doc = "https://github.com/hiplot/docs.git"
 docs_directory = "docs"
@@ -22,15 +20,12 @@ splitter = TokenTextSplitter(chunk_size=300, chunk_overlap=50)
 
 
 def get_all_md_filepath() -> list:
-    os.chdir(docs_directory)
-    current_directory = os.getcwd()
-
+    path = os.path.join(os.getcwd(), docs_directory)
     markdown_filepath = []
-    for root, dirs, files in os.walk(current_directory):
+    for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith(".md"):
                 markdown_filepath.append(os.path.join(root, file))
-    os.chdir("..")
     return markdown_filepath
 
 
@@ -71,20 +66,12 @@ def store_documents():
 
 
 if __name__ == "__main__":
-    if path_exists(docs_directory):
-        print_yellow("Document path <docs> exists, continue clone? (y/n/q)")
-        c = input().lower()
-        if c == "y":
-            delete_dir(docs_directory)
-            git_clone(git_url_doc)
-        elif c == "q":
-            sys.exit()
-    else:
-        git_clone(git_url_doc)
+    git_clone_path(git_url_doc, docs_directory)
+
     start_time = time.time()
     store_documents()
     end_time = time.time()
     use_time = end_time - start_time
     print_green(f"Use time: {int(use_time)}s")
     delete_dir(docs_directory)
-    print_green("Milvus init successful!")
+    print_green("hiplot_doc init docs successful!")

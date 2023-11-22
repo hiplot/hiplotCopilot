@@ -1,9 +1,10 @@
 import logging
 import os
+import sys
 import shutil
 import subprocess
 
-from common.print_color import print_green
+from common.print_color import print_green, print_yellow
 
 
 def is_number(s) -> bool:
@@ -22,6 +23,19 @@ def git_clone(url: str):
         logging.error(f"Git clone failed: {e}")
 
 
+def git_clone_path(url: str, path: str):
+    if path_exists(path):
+        print_yellow(f"Path <{path}> exists, continue clone? (y/n/q)")
+        c = input().lower()
+        if c == "y":
+            delete_dir(path)
+            git_clone(url)
+        elif c == "q":
+            sys.exit()
+    else:
+        git_clone(url)
+
+
 def path_exists(path: str) -> bool:
     current_directory = os.getcwd()
     docs_folder = os.path.join(current_directory, path)
@@ -31,8 +45,8 @@ def path_exists(path: str) -> bool:
 def delete_dir(path: str):
     for root, dirs, files in os.walk(path):
         for file in files:
-            path = os.path.join(root, file)
-            os.chmod(path, 0o777)
+            filepath = os.path.join(root, file)
+            os.chmod(filepath, 0o777)
     shutil.rmtree(path)
     print_green(f"Clean {path} successful.")
 
