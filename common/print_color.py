@@ -14,3 +14,8 @@ def print_yellow(content: str):
 def print_red(content: str):
     print(Fore.RED + content)
     print(Style.RESET_ALL, end="")
+
+
+def print_blue(content: str):
+    print(Fore.BLUE + content)
+    print(Style.RESET_ALL, end="")

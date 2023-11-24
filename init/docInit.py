@@ -73,5 +73,5 @@ if __name__ == "__main__":
     end_time = time.time()
     use_time = end_time - start_time
     print_green(f"Use time: {int(use_time)}s")
-    delete_dir(docs_directory)
+    # delete_dir(docs_directory)
     print_green("hiplot_doc init docs successful!")

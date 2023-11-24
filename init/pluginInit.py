@@ -32,7 +32,7 @@ def get_description_str(description_filepath: dict, limit: int = 4096) -> str:
                 "alias": meta_json["alias"],
                 "intro": meta_json["intro"]
             }
-    description += json.dumps(new_json_dict, ensure_ascii=False)
+        description += json.dumps(new_json_dict, ensure_ascii=False)
     if readme_md_filepath != "":
         with open(readme_md_filepath, "r", encoding="utf-8") as f:
             # 后续如遇到prompt过长问题可考虑压缩readme内容
@@ -63,16 +63,17 @@ def get_plugins_description_filepath() -> dict[str, dict[str, dict[str, str]]]:
 
         meta_json = ""
         readme_md = ""
+        # TODO readme检索效果不好
         for file in files:
             if file.lower() == "meta.json":
                 meta_json = os.path.join(root, file)
-            elif file.lower() == "readme.md":
-                readme_md = os.path.join(root, file)
-
-        if readme_md == "":
-            for file in files:
-                if file.lower() == "readme-zh_cn.md":
-                    readme_md = os.path.join(root, file)
+        #     elif file.lower() == "readme.md":
+        #         readme_md = os.path.join(root, file)
+        #
+        # if readme_md == "":
+        #     for file in files:
+        #         if file.lower() == "readme-zh_cn.md":
+        #             readme_md = os.path.join(root, file)
 
         module_path = filepath[module_name]
         basename = os.path.basename(root)
