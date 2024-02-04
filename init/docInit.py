@@ -16,7 +16,7 @@ from common.tools import delete_dir, git_clone_path
 
 git_url_doc = "https://github.com/hiplot/docs.git"
 docs_directory = "docs"
-splitter = TokenTextSplitter(chunk_size=300, chunk_overlap=50)
+splitter = TokenTextSplitter(chunk_size=500, chunk_overlap=100)
 
 
 def get_all_md_filepath() -> list:

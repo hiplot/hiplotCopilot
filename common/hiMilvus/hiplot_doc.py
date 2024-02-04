@@ -10,7 +10,7 @@ def build_hiplot_doc() -> Collection:
     fields = [
         FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=32, is_primary=True),
         FieldSchema(name="embeddings", dtype=DataType.FLOAT_VECTOR, dim=384),
-        FieldSchema(name="content", dtype=DataType.VARCHAR, max_length=4096)
+        FieldSchema(name="content", dtype=DataType.VARCHAR, max_length=8192)
     ]
     schema = CollectionSchema(fields, "Hiplot docs")
     hiplot_doc_collection = Collection("hiplot_doc", schema)

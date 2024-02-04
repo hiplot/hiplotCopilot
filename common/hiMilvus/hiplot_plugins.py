@@ -11,7 +11,7 @@ def build_hiplot_plugins() -> Collection:
         FieldSchema(name="id", dtype=DataType.VARCHAR, max_length=32, is_primary=True),
         FieldSchema(name="module", dtype=DataType.VARCHAR, max_length=32),
         FieldSchema(name="name", dtype=DataType.VARCHAR, max_length=64),
-        FieldSchema(name="description", dtype=DataType.VARCHAR, max_length=4096),
+        FieldSchema(name="description", dtype=DataType.VARCHAR, max_length=8192),
         FieldSchema(name="embeddings", dtype=DataType.FLOAT_VECTOR, dim=384)
     ]
     schema = CollectionSchema(fields, "Hiplot plugins")
