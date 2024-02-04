@@ -63,7 +63,21 @@ services:
       - "etcd"
       - "minio"
 
-#  mysql:
+  attu:
+    container_name: milvus-attu
+    image: zilliz/attu:v2.3.3
+    restart: always
+    environment:
+      MILVUS_URL: milvus-standalone:19530
+    volumes:
+      - ${DOCKER_VOLUME_DIRECTORY:-.}/volumes/attu:/attu
+    ports:
+      - "3000:3000"
+    depends_on:
+      - "standalone"
+
+
+  #  mysql:
 #    container_name: hiplotCopilot-mysql
 #    image: mysql:8.2.0
 #    environment:
